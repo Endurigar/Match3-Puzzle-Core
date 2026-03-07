@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4152ee6c5ee32fc428f0cd1235556956, type: 3}
+  m_Name: LevelData_12
+  m_EditorClassIdentifier: 
+  Name: Level 12
+  SceneName: 
+  Width: 7
+  Height: 7
+  NextLevel: {fileID: 11400000, guid: 21cdc7661a2aaed4bb468d8f62ff36a8, type: 2}
+  TimeLimit: 75
+  TargetScore: 2500
+  IsEndlessMode: 0
+  Obstacles:
+  - Position: {x: 1, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 2, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 3, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 4, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 5, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  Gems: []
+  EmptyCells: []

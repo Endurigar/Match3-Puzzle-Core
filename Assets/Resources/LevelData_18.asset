@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4152ee6c5ee32fc428f0cd1235556956, type: 3}
+  m_Name: LevelData_18
+  m_EditorClassIdentifier: 
+  Name: Level 18
+  SceneName: 
+  Width: 8
+  Height: 8
+  NextLevel: {fileID: 11400000, guid: 770c00023c8b55e458626e70b1d0de5b, type: 2}
+  TimeLimit: 110
+  TargetScore: 6000
+  IsEndlessMode: 0
+  Obstacles:
+  - Position: {x: 0, y: 1}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 0, y: 2}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 0, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 0, y: 4}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 0, y: 5}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 1}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 2}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 3}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 4}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 5}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 0, y: 6}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  - Position: {x: 7, y: 6}
+    Prefab: {fileID: 2458588168000150490, guid: 6d6dc7ce8709af144a5b4dcbb7cb3351, type: 3}
+  Gems: []
+  EmptyCells: []

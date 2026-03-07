@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ba4bd067927f64cbe0915484894ba9, type: 3}
+  m_Name: Gems
+  m_EditorClassIdentifier: 
+  _gemControllers:
+  - {fileID: -9191165071564902173, guid: f680c4f82414de9499415f5b9a7b748b, type: 3}
+  - {fileID: 7835915047536877856, guid: c2e0bfa3cf6d21243ab96da9d33a5ef5, type: 3}
+  - {fileID: 6149387638486209274, guid: 20c0865dfbaf61443bcd48d8f886da59, type: 3}
+  - {fileID: 6149387638486209274, guid: 8e44dd06e9185ad4b8f0fd676c7afab9, type: 3}
+  - {fileID: 6149387638486209274, guid: e7759ec35a40e824cbff25bbb4a45869, type: 3}
+  _bombControllers:
+  - {fileID: -3262133300462235653, guid: 0d6a303671cae074dbda69e97d95b43d, type: 3}
+  - {fileID: 8794685994423791982, guid: 82be98e1ec9d6f840a247396f85189a1, type: 3}
+  - {fileID: 1633667520100449364, guid: daf8c43e9cd36da4f924292c67f03f8d, type: 3}
