@@ -13,7 +13,7 @@ A robust, performant, and highly scalable Match-3 puzzle game built with Unity. 
 
 ## Technologies Used
 
-* **Engine:** Unity 2022.3 
+* **Engine:** Unity 2022.3
 * **Language:** C#
 * **DI Framework:** Extenject / Zenject
 * **Animation:** DOTween (Demigiant)
@@ -27,6 +27,15 @@ A robust, performant, and highly scalable Match-3 puzzle game built with Unity. 
 * **Combo System:** Successive cascading matches reward multiplied score points.
 * **Endless & Level Modes:** Supports predefined level data (ScriptableObjects) with specific targets, as well as an endless survival mode.
 
+## Screenshots
+
+<div align="center">
+  <img src="Screenshots/screenshot1.jpg" width="24%">
+  <img src="Screenshots/screenshot2.jpg" width="24%">
+  <img src="Screenshots/screenshot3.jpg" width="24%">
+  <img src="Screenshots/screenshot5.jpg" width="24%">
+</div>
+
 ## Getting Started
 
 ### Prerequisites
@@ -37,4 +46,4 @@ A robust, performant, and highly scalable Match-3 puzzle game built with Unity. 
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Endurigar/Match3-Puzzle-Core.git
+   git clone [https://github.com/Endurigar/Match3-Puzzle-Core.git](https://github.com/Endurigar/Match3-Puzzle-Core.git)
