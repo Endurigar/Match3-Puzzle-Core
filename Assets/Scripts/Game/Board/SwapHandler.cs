@@ -14,6 +14,9 @@ namespace Assets.Scripts.Game.Board
 
         private bool _isProcessing;
 
+        /// <summary>
+        /// Initializes a new instance of the SwapHandler class.
+        /// </summary>
         public SwapHandler(BoardState board, PowerupProcessor powerupProcessor, AudioManager audioManager)
         {
             _board = board;
@@ -21,6 +24,12 @@ namespace Assets.Scripts.Game.Board
             _audioManager = audioManager;
         }
 
+        /// <summary>
+        /// Attempts to swap two adjacent gems. If the swap results in a match or triggers a powerup, it proceeds.
+        /// Otherwise, it swaps them back.
+        /// </summary>
+        /// <param name="gem">The first gem to swap.</param>
+        /// <param name="direction">The direction of the swap.</param>
         public async void TrySwap(BoardEntity gem, Vector2 direction)
         {
             if (_isProcessing) return;
@@ -66,6 +75,9 @@ namespace Assets.Scripts.Game.Board
             _isProcessing = false;
         }
 
+        /// <summary>
+        /// Performs the swap animation for two gems and updates their positions in the board state.
+        /// </summary>
         private async Task PerformSwapAnim(BoardEntity gem1, BoardEntity gem2)
         {
             Vector2 pos1 = gem1.GridPosition;

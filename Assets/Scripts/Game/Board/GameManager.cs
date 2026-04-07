@@ -22,6 +22,9 @@ namespace Assets.Scripts.Game.Board
         public event Action OnGameWin;
         public event Action OnGameLose;
 
+        /// <summary>
+        /// Initializes a new instance of the GameManager class.
+        /// </summary>
         public GameManager(LevelData levelData, ScoreManager scoreManager, BoardState boardState,
                            SignalBus signalBus, HighScoreManager highScoreManager, AudioManager audioManager,
                            LevelProgressManager progressManager)
@@ -35,6 +38,9 @@ namespace Assets.Scripts.Game.Board
             _progressManager = progressManager;
         }
 
+        /// <summary>
+        /// Initializes the game session, starts the timer, and subscribes to events.
+        /// </summary>
         public void Initialize()
         {
             GameFlow.StartGame();
@@ -48,6 +54,9 @@ namespace Assets.Scripts.Game.Board
             _signalBus.Fire(new GameStateSignal { IsGameActive = true });
         }
 
+        /// <summary>
+        /// Disposes of the game session, saves the high score, and unsubscribes from events.
+        /// </summary>
         public void Dispose()
         {
             _isGameActive = false;
@@ -59,6 +68,9 @@ namespace Assets.Scripts.Game.Board
             _signalBus.Unsubscribe<ScoreUpdatedSignal>(OnScoreUpdated);
         }
 
+        /// <summary>
+        /// Updates the game timer every frame.
+        /// </summary>
         public void Tick()
         {
             if (!_isGameActive) return;
@@ -73,6 +85,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Restarts the game by resetting the score, timer, and board.
+        /// </summary>
         public void RestartGame()
         {
             _scoreManager.ResetScore();
@@ -83,6 +98,9 @@ namespace Assets.Scripts.Game.Board
             _boardState.Initialize();
         }
 
+        /// <summary>
+        /// Callback for when the score is updated. Checks for win condition in non-endless mode.
+        /// </summary>
         private void OnScoreUpdated(ScoreUpdatedSignal signal)
         {
             if (!_levelData.IsEndlessMode && _isGameActive)
@@ -91,6 +109,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Callback for when a time extension is granted.
+        /// </summary>
         private void OnTimeExtension(TimeExtensionSignal signal)
         {
             if (!_isGameActive) return;
@@ -98,6 +119,9 @@ namespace Assets.Scripts.Game.Board
             _signalBus.Fire(new TimerSignal { TimeLeft = _currentTime });
         }
 
+        /// <summary>
+        /// Ends the current game session and triggers win/loss logic.
+        /// </summary>
         private void EndGame()
         {
             _isGameActive = false;
@@ -127,6 +151,9 @@ namespace Assets.Scripts.Game.Board
             _signalBus.Fire(new GameStateSignal { IsGameActive = false });
         }
 
+        /// <summary>
+        /// Handles the win logic, including saving progress and unlocking the next level.
+        /// </summary>
         private void HandleWin(int stars)
         {
             _audioManager.PlaySFX(SFXType.Win);

@@ -17,6 +17,9 @@ namespace Assets.Scripts.Game.Systems
 
         private ObjectPool<FloatingTextController> _pool;
 
+        /// <summary>
+        /// Initializes the object pool for floating text instances.
+        /// </summary>
         private void Awake()
         {
             _pool = new ObjectPool<FloatingTextController>(
@@ -34,18 +37,33 @@ namespace Assets.Scripts.Game.Systems
             );
         }
 
+        /// <summary>
+        /// Displays the score for a match at the specified position.
+        /// </summary>
+        /// <param name="position">The position to show the text at.</param>
+        /// <param name="score">The score value.</param>
         public void ShowMatchScore(Vector3 position, int score)
         {
             var instance = _pool.Get();
             instance.Initialize(score.ToString(), position, _matchColor);
         }
 
+        /// <summary>
+        /// Displays the score for a bonus (powerup) at the specified position.
+        /// </summary>
+        /// <param name="position">The position to show the text at.</param>
+        /// <param name="score">The score value.</param>
         public void ShowBonusScore(Vector3 position, int score)
         {
             var instance = _pool.Get();
             instance.Initialize(score.ToString(), position, _bonusColor);
         }
 
+        /// <summary>
+        /// Displays combo text for consecutive matches.
+        /// </summary>
+        /// <param name="position">The position to show the text at.</param>
+        /// <param name="multiplier">The combo multiplier value.</param>
         public void ShowComboText(Vector3 position, int multiplier)
         {
             var instance = _pool.Get();

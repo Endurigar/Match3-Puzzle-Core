@@ -12,6 +12,9 @@ namespace Assets.Scripts.Game.Core
         [SerializeField] private GemsScriptableObject _gemsScriptableObject;
         [SerializeField] private AudioLibrary _audioLibrary;
 
+        /// <summary>
+        /// Installs the configuration instances into the Zenject container.
+        /// </summary>
         public override void InstallBindings()
         {
             Container.BindInstance(_gemsScriptableObject).AsSingle();

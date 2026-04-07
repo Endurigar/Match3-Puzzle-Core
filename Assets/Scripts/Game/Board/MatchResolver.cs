@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Game.Entities;
+using Assets.Scripts.Game.Entities;
 using Assets.Scripts.Game.Systems;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,9 @@ namespace Assets.Scripts.Game.Board
         private readonly FloatingTextManager _floatingTextManager;
         private readonly GemPoolManager _poolManager;
 
+        /// <summary>
+        /// Initializes a new instance of the MatchResolver class.
+        /// </summary>
         public MatchResolver(BoardState board, GravityController gravity, MatchAnimator animator,
                              GemsScriptableObject gemsData, ScoreManager scoreManager,
                              VFXManager vfxManager, AudioManager audioManager,
@@ -39,8 +42,17 @@ namespace Assets.Scripts.Game.Board
             _finder = new MatchFinder(board);
         }
 
+        /// <summary>
+        /// Checks if there are any matches currently on the board.
+        /// </summary>
+        /// <returns>True if matches exist.</returns>
         public bool HasMatches() => _finder.HasAnyMatches();
 
+        /// <summary>
+        /// Resolves all matches on the board, including cascading matches and powerup generation.
+        /// Loops until no more matches are found after refilling.
+        /// </summary>
+        /// <returns>Task representing the asynchronous operation.</returns>
         public async Task ResolveMatches()
         {
             if (!GameFlow.IsGameActive) return;
@@ -72,6 +84,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Animates the removal of matched groups, calculates score, and applies damage to adjacent obstacles.
+        /// </summary>
         private async Task AnimateAndRemoveGroups(List<MatchedGroup> groups, int multiplier)
         {
             if (groups.Count > 0) _audioManager.PlaySFX(SFXType.Match);
@@ -134,6 +149,9 @@ namespace Assets.Scripts.Game.Board
             await Task.WhenAll(animations);
         }
 
+        /// <summary>
+        /// Creates a bonus (bomb) from a matched group if it meets the criteria.
+        /// </summary>
         private BombController CreateBonusFromGroup(MatchedGroup group)
         {
             BoardEntity baseGem = null;
@@ -167,6 +185,9 @@ namespace Assets.Scripts.Game.Board
             return bonus;
         }
 
+        /// <summary>
+        /// Determines which type of bomb should be created from the given matched group.
+        /// </summary>
         private BombType DetermineBombType(MatchedGroup group)
         {
             if (group.Gems.Count >= 5 && group.Direction != MatchDirection.Cross)
@@ -178,6 +199,10 @@ namespace Assets.Scripts.Game.Board
             return group.Direction == MatchDirection.Horizontal ? BombType.HorizontalBomb : BombType.VerticalBomb;
         }
 
+        /// <summary>
+        /// Checks if a given position is adjacent to any of the matched gem positions.
+        /// Used for damaging obstacles.
+        /// </summary>
         private bool IsAdjacentToMatch(Vector2 pos, HashSet<Vector2Int> matched)
         {
             for (int x = -1; x <= 1; x++)
@@ -191,6 +216,9 @@ namespace Assets.Scripts.Game.Board
             return false;
         }
 
+        /// <summary>
+        /// Gets a list of all positions on the board grid.
+        /// </summary>
         private List<Vector2Int> GetAllBoardPositions()
         {
             List<Vector2Int> positions = new();
@@ -200,6 +228,9 @@ namespace Assets.Scripts.Game.Board
             return positions;
         }
 
+        /// <summary>
+        /// Calculates the average center position of a list of gems for visual effects.
+        /// </summary>
         private Vector3 GetGroupCenter(List<GemController> gems)
         {
             if (gems == null || gems.Count == 0) return Vector3.zero;

@@ -9,14 +9,27 @@ namespace Assets.Scripts.Game.Board
         private readonly MatchFinder _matchFinder;
         private static readonly Vector2Int[] Directions = { Vector2Int.right, Vector2Int.up };
 
+        /// <summary>
+        /// Initializes a new instance of the PossibleMoveChecker class.
+        /// </summary>
+        /// <param name="board">The board state to check.</param>
+        /// <param name="matchFinder">The match finder to validate moves.</param>
         public PossibleMoveChecker(BoardState board, MatchFinder matchFinder)
         {
             _board = board;
             _matchFinder = matchFinder;
         }
 
+        /// <summary>
+        /// Checks if there is at least one valid move currently possible on the board.
+        /// </summary>
+        /// <returns>True if a move exists, false otherwise.</returns>
         public bool HasPossibleMoves() => GetFirstPossibleMove().HasValue;
 
+        /// <summary>
+        /// Finds and returns the first possible valid move on the board.
+        /// </summary>
+        /// <returns>A tuple of two gems that can be swapped, or null if no moves exist.</returns>
         public (BoardEntity Gem1, BoardEntity Gem2)? GetFirstPossibleMove()
         {
             for (int x = 0; x < _board.Width; x++)

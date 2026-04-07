@@ -17,6 +17,9 @@ namespace Assets.Scripts.Game.Core
         [SerializeField] private FloatingTextManager _floatingTextManager;
         [SerializeField] private CameraEffectManager _cameraEffectManager;
 
+        /// <summary>
+        /// Installs all dependencies for the core game scene.
+        /// </summary>
         public override void InstallBindings()
         {
             BindLevelData();
@@ -27,6 +30,10 @@ namespace Assets.Scripts.Game.Core
             BindAudio();
         }
 
+        /// <summary>
+        /// Binds the level data to be used by the board and game manager.
+        /// Defaults to "DefaultLevelData" if no level is selected.
+        /// </summary>
         private void BindLevelData()
         {
             var selectedLevel = LevelManager.Instance != null ? LevelManager.Instance.SelectedLevelData : null;
@@ -38,6 +45,9 @@ namespace Assets.Scripts.Game.Core
             Container.Bind<LevelData>().FromInstance(selectedLevel).AsSingle();
         }
 
+        /// <summary>
+        /// Configures the Zenject signal bus and declares all necessary signals.
+        /// </summary>
         private void BindSignals()
         {
             SignalBusInstaller.Install(Container);
@@ -49,6 +59,9 @@ namespace Assets.Scripts.Game.Core
             Container.DeclareSignal<ScoreUpdatedSignal>();
         }
 
+        /// <summary>
+        /// Binds all core game systems and logic controllers.
+        /// </summary>
         private void BindSystems()
         {
             Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
@@ -65,6 +78,9 @@ namespace Assets.Scripts.Game.Core
             Container.BindInterfacesAndSelfTo<UnityAdsService>().AsSingle().NonLazy();
         }
 
+        /// <summary>
+        /// Binds UI components found in the scene hierarchy.
+        /// </summary>
         private void BindUI()
         {
             Container.Bind<TimerUI>().FromComponentInHierarchy().AsSingle();
@@ -74,6 +90,9 @@ namespace Assets.Scripts.Game.Core
             Container.Bind<GameEndUI>().FromComponentInHierarchy().AsSingle();
         }
 
+        /// <summary>
+        /// Binds visual and scene-specific components like managers and holders.
+        /// </summary>
         private void BindSceneComponents()
         {
             Container.Bind<Transform>().WithId("Holder").FromInstance(_boardHolder).AsSingle();
@@ -84,6 +103,9 @@ namespace Assets.Scripts.Game.Core
             Container.Bind<GemPoolManager>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
         }
 
+        /// <summary>
+        /// Configures the audio manager binding, handling both singleton and scene-local instances.
+        /// </summary>
         private void BindAudio()
         {
             if (AudioManager.Instance != null)

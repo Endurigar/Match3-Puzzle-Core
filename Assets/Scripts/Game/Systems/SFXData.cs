@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Systems
 {
+    /// <summary>
+    /// Represents sound effect data, including its type, clip, and volume.
+    /// </summary>
     [Serializable]
     public class SFXData
     {
@@ -11,6 +14,9 @@ namespace Assets.Scripts.Game.Systems
         [Range(0f, 1f)] public float Volume = 1f;
     }
 
+    /// <summary>
+    /// Represents musical track data, including its type, clip, and volume.
+    /// </summary>
     [Serializable]
     public class MusicData
     {
@@ -19,3 +25,4 @@ namespace Assets.Scripts.Game.Systems
         [Range(0f, 1f)] public float Volume = 0.5f;
     }
 }
+ village

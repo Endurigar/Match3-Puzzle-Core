@@ -10,6 +10,11 @@ namespace Assets.Scripts.Game.Board
     {
         [Inject] private readonly GemPoolManager _poolManager;
 
+        /// <summary>
+        /// Animates the destruction of a gem by scaling it down and then releasing it to the pool.
+        /// </summary>
+        /// <param name="gem">The gem entity to destroy.</param>
+        /// <returns>Task representing the asynchronous animation.</returns>
         public async Task AnimateDestroyGem(BoardEntity gem)
         {
             if (gem == null || gem.gameObject == null || GameFlow.Token.IsCancellationRequested) return;

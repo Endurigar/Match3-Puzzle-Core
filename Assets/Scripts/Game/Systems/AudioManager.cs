@@ -6,20 +6,24 @@ namespace Assets.Scripts.Game.Systems
 {
     public class AudioManager : MonoBehaviour
     {
+        /// <summary>
+        /// Gets the singleton instance of the AudioManager.
+        /// </summary>
         public static AudioManager Instance { get; private set; }
 
-        [Header("Sources")]
-        [SerializeField] private AudioSource _musicSource;
-        [SerializeField] private AudioSource _sfxSource;
-
-        private AudioLibrary _audioLibrary;
-
-        private const string MUSIC_MUTE_KEY = "MusicMuted";
-        private const string SFX_MUTE_KEY = "SFXMuted";
-
+        /// <summary>
+        /// Gets whether the music is currently muted.
+        /// </summary>
         public bool IsMusicMuted { get; private set; }
+
+        /// <summary>
+        /// Gets whether the sound effects are currently muted.
+        /// </summary>
         public bool IsSFXMuted { get; private set; }
 
+        /// <summary>
+        /// Injects the audio library dependency.
+        /// </summary>
         [Inject]
         public void Construct(AudioLibrary audioLibrary)
         {
@@ -27,6 +31,9 @@ namespace Assets.Scripts.Game.Systems
             ApplySettings();
         }
 
+        /// <summary>
+        /// Initializes the singleton instance and loads audio settings.
+        /// </summary>
         private void Awake()
         {
             if (Instance == null)
@@ -58,18 +65,27 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Loads the muted state for music and SFX from PlayerPrefs.
+        /// </summary>
         private void LoadSettingsStateOnly()
         {
             IsMusicMuted = PlayerPrefs.GetInt(MUSIC_MUTE_KEY, 0) == 1;
             IsSFXMuted = PlayerPrefs.GetInt(SFX_MUTE_KEY, 0) == 1;
         }
 
+        /// <summary>
+        /// Applies the current mute settings to the audio sources.
+        /// </summary>
         private void ApplySettings()
         {
             if (_musicSource != null) _musicSource.mute = IsMusicMuted;
             if (_sfxSource != null) _sfxSource.mute = IsSFXMuted;
         }
 
+        /// <summary>
+        /// Toggles the music mute state and saves the setting.
+        /// </summary>
         public void ToggleMusic()
         {
             IsMusicMuted = !IsMusicMuted;
@@ -78,6 +94,9 @@ namespace Assets.Scripts.Game.Systems
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// Toggles the SFX mute state and saves the setting.
+        /// </summary>
         public void ToggleSFX()
         {
             IsSFXMuted = !IsSFXMuted;
@@ -86,6 +105,10 @@ namespace Assets.Scripts.Game.Systems
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// Plays a sound effect of the specified type.
+        /// </summary>
+        /// <param name="type">The type of sound effect to play.</param>
         public void PlaySFX(SFXType type)
         {
             if (IsSFXMuted || _sfxSource == null || _audioLibrary == null) return;
@@ -98,6 +121,10 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Plays the specified music track, cross-fading from the current one.
+        /// </summary>
+        /// <param name="type">The type of music to play.</param>
         public void PlayMusic(MusicType type)
         {
             if (_musicSource == null || _audioLibrary == null) return;
@@ -119,6 +146,9 @@ namespace Assets.Scripts.Game.Systems
             });
         }
 
+        /// <summary>
+        /// Stops the currently playing music track with a fade-out effect.
+        /// </summary>
         public void StopMusic()
         {
             if (_musicSource == null) return;

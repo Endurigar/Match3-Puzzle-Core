@@ -21,12 +21,20 @@ namespace Assets.Scripts.Game.Systems
 
         public HintSystem() { }
 
+        /// <summary>
+        /// Initializes the hint system with necessary dependencies.
+        /// </summary>
+        /// <param name="moveChecker">The move checker used to find potential moves.</param>
+        /// <param name="vfxManager">The VFX manager used to play hint effects.</param>
         public void Initialize(PossibleMoveChecker moveChecker, VFXManager vfxManager)
         {
             _moveChecker = moveChecker;
             _vfxManager = vfxManager;
         }
 
+        /// <summary>
+        /// Called every frame by Zenject. Updates the idle timer and triggers hints if needed.
+        /// </summary>
         public void Tick()
         {
             if (_moveChecker == null || _vfxManager == null || !GameFlow.IsGameActive)
@@ -63,6 +71,9 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Calculates and displays a hint if a move is found.
+        /// </summary>
         private void ShowHint()
         {
             var move = _moveChecker.GetFirstPossibleMove();
@@ -76,6 +87,9 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Refreshes the currently active hint or finds a new one if the current one is lost.
+        /// </summary>
         private void RefreshHint()
         {
             if (_activeHintParticles != null && _hintedGem != null)
@@ -89,6 +103,9 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Resets the idle and repeat timers and stops any active hint.
+        /// </summary>
         public void ResetTimer()
         {
             _idleTimer = 0;
@@ -96,6 +113,9 @@ namespace Assets.Scripts.Game.Systems
             StopHint();
         }
 
+        /// <summary>
+        /// Stops the currently active hint loop and clears particle effects.
+        /// </summary>
         private void StopHint()
         {
             if (_activeHintParticles != null)
@@ -108,3 +128,6 @@ namespace Assets.Scripts.Game.Systems
         }
     }
 }
+ village
+ village
+ village

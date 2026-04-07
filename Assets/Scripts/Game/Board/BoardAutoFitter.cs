@@ -21,20 +21,33 @@ namespace Assets.Scripts.Game.Board
         private LevelData _levelData;
         private int _lastWidth, _lastHeight;
 
+        /// <summary>
+        /// Injects the level data dependency.
+        /// </summary>
+        /// <param name="levelData">The level configuration data.</param>
         [Inject]
         public void Construct(LevelData levelData)
         {
             _levelData = levelData;
         }
 
+        /// <summary>
+        /// Resets the camera reference.
+        /// </summary>
         private void Reset() => _cam = Camera.main;
 
+        /// <summary>
+        /// Initializes the auto-fitter and starts resolution watching if enabled.
+        /// </summary>
         private void Start()
         {
             FitNow();
             if (_recalcOnResolutionChange) StartCoroutine(WatchResolution());
         }
 
+        /// <summary>
+        /// Adjusts the camera's orthographic size and position to fit the board within the screen.
+        /// </summary>
         public void FitNow()
         {
             if (_cam == null || _levelData == null) return;
@@ -64,6 +77,10 @@ namespace Assets.Scripts.Game.Board
             _lastHeight = Screen.height;
         }
 
+        /// <summary>
+        /// Periodically checks for screen resolution changes and triggers a re-fit.
+        /// </summary>
+        /// <returns>IEnumerator for the coroutine.</returns>
         private IEnumerator WatchResolution()
         {
             while (true)

@@ -7,6 +7,10 @@ using UnityEngine.Pool;
 
 namespace Assets.Scripts.Game.Systems
 {
+    /// <summary>
+    /// Manages visual effects (VFX) such as explosions, gem destruction, and hints.
+    /// Uses object pooling for performance optimization.
+    /// </summary>
     public class VFXManager : MonoBehaviour
     {
         [Header("Prefabs")]
@@ -28,6 +32,9 @@ namespace Assets.Scripts.Game.Systems
 
         private int _activeEffects = 0;
 
+        /// <summary>
+        /// Gets the singleton instance of the VFXManager.
+        /// </summary>
         public static VFXManager Instance { get; private set; }
 
         private void Awake()
@@ -59,7 +66,11 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
-
+        /// <summary>
+        /// Plays a looping hint effect at the specified position.
+        /// </summary>
+        /// <param name="position">The world position for the hint.</param>
+        /// <returns>The ParticleSystem instance being played.</returns>
         public ParticleSystem PlayHintLoop(Vector3 position)
         {
             if (_hintPool == null) return null;
@@ -71,6 +82,10 @@ namespace Assets.Scripts.Game.Systems
             return instance;
         }
 
+        /// <summary>
+        /// Stops a looping hint effect and returns it to the pool.
+        /// </summary>
+        /// <param name="instance">The ParticleSystem instance to stop.</param>
         public void StopHintLoop(ParticleSystem instance)
         {
             if (instance == null || _hintPool == null) return;
@@ -79,13 +94,16 @@ namespace Assets.Scripts.Game.Systems
             _hintPool.Release(instance);
         }
 
+        /// <summary>
+        /// Restarts a looping hint effect.
+        /// </summary>
+        /// <param name="instance">The ParticleSystem instance to restart.</param>
         public void RestartHintLoop(ParticleSystem instance)
         {
             if (instance == null) return;
             instance.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             instance.Play(true);
         }
-
 
         private Task PlayBombEffectInternal(Vector3 position, BombType type)
         {
@@ -105,16 +123,37 @@ namespace Assets.Scripts.Game.Systems
             return PlayAsync(prefab, position, duration, true);
         }
 
+        /// <summary>
+        /// Plays an activation effect for a specific bomb type asynchronously.
+        /// </summary>
         public Task PlayActivationEffectAsync(Vector3 position, BombType type) => PlayBombEffectInternal(position, type);
+        
+        /// <summary>
+        /// Plays a destruction effect for a specific bonus type asynchronously.
+        /// </summary>
         public Task PlayBonusDestroyAsync(Vector3 position, BombType type) => PlayBombEffectInternal(position, type);
+        
+        /// <summary>
+        /// Plays an activation effect for a specific bomb type.
+        /// </summary>
         public void PlayActivationEffect(Vector3 position, BombType type) => _ = PlayActivationEffectAsync(position, type);
+        
+        /// <summary>
+        /// Plays a destruction effect for a specific bonus type.
+        /// </summary>
         public void PlayBonusDestroy(Vector3 position, BombType type) => _ = PlayBonusDestroyAsync(position, type);
 
+        /// <summary>
+        /// Plays a gem destruction effect at the specified position asynchronously.
+        /// </summary>
         public Task PlayGemDestroyAsync(Vector3 position)
         {
             return PlayAsync(_gemDestroyEffect, position, _gemDestroyDuration, false);
         }
 
+        /// <summary>
+        /// Plays a gem destruction effect at the specified position.
+        /// </summary>
         public void PlayGemDestroy(Vector3 position) => _ = PlayGemDestroyAsync(position);
 
         private Task PlayAsync(ParticleSystem prefab, Vector3 position, float duration, bool applyScale)
@@ -165,8 +204,15 @@ namespace Assets.Scripts.Game.Systems
             _pools[prefab] = pool;
         }
 
+        /// <summary>
+        /// Checks if any VFX are currently playing.
+        /// </summary>
+        /// <returns>True if at least one effect is active.</returns>
         public bool IsAnyVFXPlaying() => _activeEffects > 0;
 
+        /// <summary>
+        /// Waits asynchronously until all currently playing VFX have finished.
+        /// </summary>
         public async Task WaitForAllVFXToEnd()
         {
             while (_activeEffects > 0)

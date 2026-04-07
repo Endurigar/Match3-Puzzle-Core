@@ -12,6 +12,10 @@ namespace Assets.Scripts.Game.Systems
         private BoardEntity _selectedGem;
         private SwapHandler _swapHandler;
 
+        /// <summary>
+        /// Injects the swap handler dependency.
+        /// </summary>
+        /// <param name="swapHandler">The handler used to perform gem swaps.</param>
         [Inject]
         public void Construct(SwapHandler swapHandler)
         {
@@ -29,11 +33,15 @@ namespace Assets.Scripts.Game.Systems
 #endif
         }
 
+        /// <summary>
+        /// Handles mouse input for gem selection and swipe detection in the editor or standalone builds.
+        /// </summary>
         private void HandleMouseInput()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var hit = Physics2D.Raycast(ray, Vector2.zero);
                 if (hit.collider != null)
                 {
                     _selectedGem = hit.collider.GetComponent<BoardEntity>();
@@ -50,6 +58,9 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Handles touch input for gem selection and swipe detection on mobile devices.
+        /// </summary>
         private void HandleTouchInput()
         {
             if (Input.touchCount == 0) return;
@@ -59,7 +70,8 @@ namespace Assets.Scripts.Game.Systems
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(touch.position), Vector2.zero);
+                    var ray = Camera.main.ScreenToWorldPoint(touch.position);
+                    var hit = Physics2D.Raycast(ray, Vector2.zero);
                     if (hit.collider != null)
                     {
                         _selectedGem = hit.collider.GetComponent<BoardEntity>();
@@ -81,6 +93,10 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Checks if the input movement constitutes a valid swipe and triggers a swap if so.
+        /// </summary>
+        /// <param name="currentPosition">The current position of the input point.</param>
         private void CheckSwipe(Vector2 currentPosition)
         {
             float distance = Vector2.Distance(_startTouchPosition, currentPosition);
@@ -89,8 +105,8 @@ namespace Assets.Scripts.Game.Systems
 
             Vector2 dir = (currentPosition - _startTouchPosition).normalized;
             Vector2 direction = Mathf.Abs(dir.x) > Mathf.Abs(dir.y)
-                ? dir.x > 0 ? Vector2.right : Vector2.left
-                : dir.y > 0 ? Vector2.up : Vector2.down;
+                ? (dir.x > 0 ? Vector2.right : Vector2.left)
+                : (dir.y > 0 ? Vector2.up : Vector2.down);
 
             _swapHandler?.TrySwap(_selectedGem, direction);
 
@@ -98,3 +114,4 @@ namespace Assets.Scripts.Game.Systems
         }
     }
 }
+ village

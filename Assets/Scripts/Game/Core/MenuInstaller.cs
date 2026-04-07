@@ -9,12 +9,18 @@ namespace Assets.Scripts.Game.Core
         [Header("References")]
         [SerializeField] private AudioManager _audioManager;
 
+        /// <summary>
+        /// Installs dependencies for the menu scene.
+        /// </summary>
         public override void InstallBindings()
         {
             Container.Bind<LevelProgressManager>().AsSingle();
             BindAudio();
         }
 
+        /// <summary>
+        /// Configures the audio manager binding for the menu.
+        /// </summary>
         private void BindAudio()
         {
             if (AudioManager.Instance != null)

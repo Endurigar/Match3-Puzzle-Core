@@ -25,10 +25,24 @@ namespace Assets.Scripts.Game.Board
 
         private bool _isCheckingMatches = false;
 
+        /// <summary>
+        /// Gets the current board width.
+        /// </summary>
         public int Width { get; private set; }
+
+        /// <summary>
+        /// Gets the current board height.
+        /// </summary>
         public int Height { get; private set; }
+
+        /// <summary>
+        /// Gets the possible move checker instance.
+        /// </summary>
         public PossibleMoveChecker PossibleMoveChecker => _possibleMoveChecker;
 
+        /// <summary>
+        /// Initializes a new instance of the BoardState class using Zenject injection.
+        /// </summary>
         [Inject]
         public BoardState(
             GemsScriptableObject gemsScriptableObject,
@@ -60,6 +74,9 @@ namespace Assets.Scripts.Game.Board
             _hintSystem.Initialize(_possibleMoveChecker, _vfxManager);
         }
 
+        /// <summary>
+        /// Initializes the board layout and checks for initial matches.
+        /// </summary>
         public async void Initialize()
         {
             if (_currentLevelData == null) return;
@@ -69,6 +86,11 @@ namespace Assets.Scripts.Game.Board
             await CheckMatches();
         }
 
+        /// <summary>
+        /// Resizes the board grid to the specified dimensions.
+        /// </summary>
+        /// <param name="width">New width.</param>
+        /// <param name="height">New height.</param>
         public void ResizeBoard(int width, int height)
         {
             Width = width;
@@ -76,8 +98,20 @@ namespace Assets.Scripts.Game.Board
             _grid = new BoardEntity[Width, Height];
         }
 
+        /// <summary>
+        /// Gets the entity at the specified coordinates.
+        /// </summary>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
+        /// <returns>The entity at the position, or null if outside or empty.</returns>
         public BoardEntity GetGem(int x, int y) => IsInside(new Vector2(x, y)) ? _grid[x, y] : null;
 
+        /// <summary>
+        /// Sets an entity at the specified coordinates and updates its grid position.
+        /// </summary>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
+        /// <param name="gem">The entity to place.</param>
         public void SetGem(int x, int y, BoardEntity gem)
         {
             if (!IsInside(new Vector2(x, y))) return;
@@ -85,12 +119,28 @@ namespace Assets.Scripts.Game.Board
             if (gem != null) gem.GridPosition = new Vector2(x, y);
         }
 
+        /// <summary>
+        /// Overload for SetGem using float coordinates.
+        /// </summary>
         public void SetGem(float x, float y, BoardEntity gem) => SetGem((int)x, (int)y, gem);
 
+        /// <summary>
+        /// Checks if the given position is within the board bounds.
+        /// </summary>
+        /// <param name="pos">The position to check.</param>
+        /// <returns>True if inside, false otherwise.</returns>
         public bool IsInside(Vector2 pos) => pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height;
 
+        /// <summary>
+        /// Checks if there are currently any matches on the board.
+        /// </summary>
+        /// <returns>True if matches exist.</returns>
         public bool HasMatches() => _matchResolver.HasMatches();
 
+        /// <summary>
+        /// Triggers a match resolution process (resolving matches, applying gravity, and refilling).
+        /// If no moves are possible after resolution, it reshuffles the board.
+        /// </summary>
         public async Task CheckMatches()
         {
             if (_isCheckingMatches) return;
@@ -109,6 +159,10 @@ namespace Assets.Scripts.Game.Board
             _isCheckingMatches = false;
         }
 
+        /// <summary>
+        /// Gets a list of all current entities on the board.
+        /// </summary>
+        /// <returns>A list of BoardEntity.</returns>
         public List<BoardEntity> GetAllGems()
         {
             var gems = new List<BoardEntity>();

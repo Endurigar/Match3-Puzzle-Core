@@ -18,6 +18,13 @@ namespace Assets.Scripts.Game.Board
         private List<GemType> _availableGemTypes;
         private HashSet<Vector2Int> _emptyCellsLookup = new HashSet<Vector2Int>();
 
+        /// <summary>
+        /// Initializes a new instance of the BoardGenerator class.
+        /// </summary>
+        /// <param name="board">The board state.</param>
+        /// <param name="gemsScriptableObject">The scriptable object containing gem data.</param>
+        /// <param name="holder">The transform to hold spawned gems.</param>
+        /// <param name="poolManager">The gem pool manager.</param>
         public BoardGenerator(BoardState board, GemsScriptableObject gemsScriptableObject,
                               Transform holder, GemPoolManager poolManager)
         {
@@ -28,9 +35,16 @@ namespace Assets.Scripts.Game.Board
             InitializeAvailableTypes();
         }
 
+        /// <summary>
+        /// Sets the transform holder for spawned gems.
+        /// </summary>
+        /// <param name="holder">The holder transform.</param>
         public void SetHolder(Transform holder) => _holder = holder;
 
-        public void GenerateLevel(LevelData levelData)
+        /// <summary>
+        /// Generates the initial level layout based on level data.
+        /// </summary>
+        /// <param name="levelData">The data defining the level.</param>
         {
             if (_holder == null) return;
 
@@ -59,6 +73,10 @@ namespace Assets.Scripts.Game.Board
             RegenerateBoardUntilPlayable();
         }
 
+        /// <summary>
+        /// Regenerates the board layout until a playable state (with possible moves) is reached.
+        /// </summary>
+        /// <param name="checker">Optional checker for possible moves.</param>
         public void RegenerateBoardUntilPlayable(PossibleMoveChecker checker = null)
         {
             if (_holder == null) return;
@@ -74,6 +92,9 @@ namespace Assets.Scripts.Game.Board
             ApplyLayoutToBoard(validLayout);
         }
 
+        /// <summary>
+        /// Animates the removal of all gems from the board.
+        /// </summary>
         public void RegenerateBoardAnimated()
         {
             if (_holder == null) return;
@@ -95,12 +116,22 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Spawns a single gem at the specified coordinates.
+        /// </summary>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
+        /// <param name="animate">Whether to animate the spawn.</param>
+        /// <returns>The spawned BoardEntity, or null if blocked.</returns>
         public BoardEntity SpawnGem(int x, int y, bool animate = true)
         {
             if (IsCellBlocked(x, y)) return null;
             return SpawnGemFromPool(GetRandomType(), x, y, animate);
         }
 
+        /// <summary>
+        /// Spawns a gem of a specific type from the pool at the specified coordinates.
+        /// </summary>
         private BoardEntity SpawnGemFromPool(GemType type, int x, int y, bool animate)
         {
             if (_holder == null) return null;
@@ -129,6 +160,9 @@ namespace Assets.Scripts.Game.Board
             return gem;
         }
 
+        /// <summary>
+        /// Spawns an entity (like an obstacle) from a prefab at the specified coordinates.
+        /// </summary>
         private void SpawnEntity(GameObject prefab, int x, int y)
         {
             if (_holder == null || prefab == null) return;
@@ -141,6 +175,9 @@ namespace Assets.Scripts.Game.Board
             _board.SetGem(x, y, controller);
         }
 
+        /// <summary>
+        /// Attempts to generate a layout with at least one possible move within a maximum number of tries.
+        /// </summary>
         private GemType?[,] TryGenerateValidLayout(int maxTries)
         {
             for (int i = 0; i < maxTries; i++)
@@ -151,6 +188,9 @@ namespace Assets.Scripts.Game.Board
             return null;
         }
 
+        /// <summary>
+        /// Generates a random layout of gems, optionally preventing immediate matches.
+        /// </summary>
         private GemType?[,] GenerateRandomLayout(bool resolveMatches)
         {
             int w = _board.Width;
@@ -183,6 +223,9 @@ namespace Assets.Scripts.Game.Board
             return layout;
         }
 
+        /// <summary>
+        /// Checks if a cell is blocked by an empty cell definition or an obstacle.
+        /// </summary>
         public bool IsCellBlocked(int x, int y)
         {
             if (_emptyCellsLookup.Contains(new Vector2Int(x, y))) return true;
@@ -197,6 +240,9 @@ namespace Assets.Scripts.Game.Board
             return false;
         }
 
+        /// <summary>
+        /// Clears all gems from the board and releases them to the pool.
+        /// </summary>
         private void ClearBoard()
         {
             if (_holder == null) return;
@@ -211,6 +257,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Clears all gems from the board except for obstacles.
+        /// </summary>
         private void ClearBoardExceptObstacles()
         {
             if (_holder == null) return;
@@ -228,6 +277,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Applies a gem layout to the physical board by spawning gems from the pool.
+        /// </summary>
         private void ApplyLayoutToBoard(GemType?[,] layout)
         {
             for (int x = 0; x < _board.Width; x++)
@@ -242,6 +294,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Checks if the given virtual layout has at least one possible move.
+        /// </summary>
         private bool HasVirtualPossibleMove(GemType?[,] layout)
         {
             int w = layout.GetLength(0);
@@ -260,6 +315,9 @@ namespace Assets.Scripts.Game.Board
             return false;
         }
 
+        /// <summary>
+        /// Checks if swapping two adjacent gems in the layout results in a match.
+        /// </summary>
         private bool CheckSwap(GemType?[,] layout, int x1, int y1, int x2, int y2)
         {
             int w = layout.GetLength(0);
@@ -281,6 +339,9 @@ namespace Assets.Scripts.Game.Board
             return hasMatch;
         }
 
+        /// <summary>
+        /// Checks if there is a match at the specified coordinates in the layout.
+        /// </summary>
         private bool CheckMatchAt(GemType?[,] layout, int x, int y)
         {
             if (!layout[x, y].HasValue) return false;
@@ -297,6 +358,10 @@ namespace Assets.Scripts.Game.Board
             return countV >= 3;
         }
 
+        /// <summary>
+        /// Checks if placing a gem of a certain type at (x, y) would create an immediate match.
+        /// Used during initial layout generation.
+        /// </summary>
         private bool HasMatchAt(GemType?[,] layout, int x, int y, GemType current)
         {
             if (x >= 2 && layout[x - 1, y] == current && layout[x - 2, y] == current) return true;
@@ -304,6 +369,9 @@ namespace Assets.Scripts.Game.Board
             return false;
         }
 
+        /// <summary>
+        /// Initializes the list of available gem types based on the scriptable object.
+        /// </summary>
         private void InitializeAvailableTypes()
         {
             _availableGemTypes = new List<GemType>();
@@ -314,12 +382,18 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Gets a random gem type from the available types.
+        /// </summary>
         private GemType GetRandomType()
         {
             if (_availableGemTypes == null || _availableGemTypes.Count == 0) return GemType.Red;
             return _availableGemTypes[Random.Range(0, _availableGemTypes.Count)];
         }
 
+        /// <summary>
+        /// Gets the next gem type in the available types list (cyclic).
+        /// </summary>
         private GemType GetNextType(GemType current)
         {
             int index = _availableGemTypes.IndexOf(current);

@@ -11,6 +11,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.UI
 {
+    /// <summary>
+    /// Controller for the game end screen (win/lose).
+    /// Handles star animations, level navigation, and advertisement banners.
+    /// </summary>
     public class GameEndUI : BaseMenu
     {
         [Header("Visuals")]
@@ -31,6 +35,9 @@ namespace Assets.Scripts.Game.UI
         private AudioManager _audioManager;
         private IAdsService _adsService;
 
+        /// <summary>
+        /// Injects dependencies required for the game end screen.
+        /// </summary>
         [Inject]
         public void Construct(GameManager gameManager, ScoreManager scoreManager, AudioManager audioManager, IAdsService adsService)
         {
@@ -87,6 +94,10 @@ namespace Assets.Scripts.Game.UI
             HandleGameEnd(false);
         }
 
+        /// <summary>
+        /// Handles the UI state when the game ends.
+        /// </summary>
+        /// <param name="isWin">True if the player won, false if they lost.</param>
         private void HandleGameEnd(bool isWin)
         {
             _adsService.ShowBanner(true);
@@ -108,6 +119,9 @@ namespace Assets.Scripts.Game.UI
             }
         }
 
+        /// <summary>
+        /// Loads the next level if one exists.
+        /// </summary>
         private void LoadNextLevel()
         {
             PrepareForSceneChange();
@@ -118,12 +132,18 @@ namespace Assets.Scripts.Game.UI
             }
         }
 
+        /// <summary>
+        /// Restarts the current game scene.
+        /// </summary>
         private void RestartGame()
         {
             PrepareForSceneChange();
             ReloadScene();
         }
 
+        /// <summary>
+        /// Loads the main menu scene.
+        /// </summary>
         private void LoadMainMenu()
         {
             PrepareForSceneChange();
@@ -142,6 +162,9 @@ namespace Assets.Scripts.Game.UI
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        /// <summary>
+        /// Resets all star images to their initial state.
+        /// </summary>
         private void ResetStars()
         {
             foreach (var starImg in _starImages)
@@ -151,6 +174,10 @@ namespace Assets.Scripts.Game.UI
             }
         }
 
+        /// <summary>
+        /// Animates the display of earned stars at the end of a successful level.
+        /// </summary>
+        /// <param name="count">The number of stars to animate.</param>
         private void AnimateStars(int count)
         {
             Sequence sequence = DOTween.Sequence().SetUpdate(true);

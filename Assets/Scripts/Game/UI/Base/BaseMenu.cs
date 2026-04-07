@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.UI.Base
 {
+    /// <summary>
+    /// Abstract base class for UI menus. 
+    /// Handles showing/hiding with fade animations and optional time scaling.
+    /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
     public abstract class BaseMenu : MonoBehaviour
     {
@@ -32,6 +36,11 @@ namespace Assets.Scripts.Game.UI.Base
             HideMenuImmediate();
         }
 
+        /// <summary>
+        /// Displays the menu with a fade animation.
+        /// </summary>
+        /// <param name="statusMessage">Optional message to display on the menu.</param>
+        /// <param name="pauseTime">If true, sets Time.timeScale to 0 while the menu is shown.</param>
         protected void ShowMenu(string statusMessage = null, bool pauseTime = true)
         {
             if (_isTransitioning) return;
@@ -64,6 +73,10 @@ namespace Assets.Scripts.Game.UI.Base
             OnMenuShown();
         }
 
+        /// <summary>
+        /// Hides the menu with a fade animation.
+        /// </summary>
+        /// <param name="resumeTime">If true, sets Time.timeScale to 1 after the menu is hidden.</param>
         protected void HideMenu(bool resumeTime = true)
         {
             if (_isTransitioning) return;
@@ -94,6 +107,9 @@ namespace Assets.Scripts.Game.UI.Base
             OnMenuHidden();
         }
 
+        /// <summary>
+        /// Hides the menu immediately without any animation.
+        /// </summary>
         protected void HideMenuImmediate()
         {
             _isTransitioning = false;
@@ -131,9 +147,20 @@ namespace Assets.Scripts.Game.UI.Base
             }
         }
 
+        /// <summary>
+        /// Checks if the menu is currently active or transitioning.
+        /// </summary>
         protected bool IsActive() => _isActive || _isTransitioning;
 
+        /// <summary>
+        /// Virtual callback called when the menu starts showing.
+        /// </summary>
         protected virtual void OnMenuShown() { }
+        
+        /// <summary>
+        /// Virtual callback called when the menu starts hiding.
+        /// </summary>
         protected virtual void OnMenuHidden() { }
     }
 }
+ village

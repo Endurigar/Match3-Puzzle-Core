@@ -4,6 +4,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.Systems.Ads
 {
+    /// <summary>
+    /// Implementation of IAdsService using Unity Ads. 
+    /// Handles initialization and banner display.
+    /// </summary>
     public class UnityAdsService : IAdsService, IUnityAdsInitializationListener, IInitializable
     {
         private readonly string _androidGameId = "YOUR_ANDROID_GAME_ID";
@@ -17,6 +21,9 @@ namespace Assets.Scripts.Game.Systems.Ads
         private string _gameId;
         private string _bannerId;
 
+        /// <summary>
+        /// Initializes the Unity Ads service and sets banner position.
+        /// </summary>
         public void Initialize()
         {
 #if UNITY_IOS
@@ -35,6 +42,10 @@ namespace Assets.Scripts.Game.Systems.Ads
             Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
         }
 
+        /// <summary>
+        /// Loads and shows the advertisement banner, or hides it if already showing.
+        /// </summary>
+        /// <param name="show">True to load and show the banner, false to hide it.</param>
         public void ShowBanner(bool show)
         {
             if (!Advertisement.isInitialized) return;
@@ -54,8 +65,16 @@ namespace Assets.Scripts.Game.Systems.Ads
             }
         }
 
+        /// <summary>
+        /// Implementation of <see cref="IUnityAdsInitializationListener.OnInitializationComplete"/>.
+        /// </summary>
         public void OnInitializationComplete() { }
 
+        /// <summary>
+        /// Implementation of <see cref="IUnityAdsInitializationListener.OnInitializationFailed"/>.
+        /// </summary>
+        /// <param name="error">The initialization error type.</param>
+        /// <param name="message">A descriptive error message.</param>
         public void OnInitializationFailed(UnityAdsInitializationError error, string message)
         {
             Debug.LogError($"Unity Ads Init Failed: {error} - {message}");

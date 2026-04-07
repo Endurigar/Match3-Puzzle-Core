@@ -21,6 +21,9 @@ namespace Assets.Scripts.Game.Board
         private const int ObstacleScore = 150;
         private const int PowerupScore = 200;
 
+        /// <summary>
+        /// Initializes a new instance of the PowerupProcessor class.
+        /// </summary>
         public PowerupProcessor(BoardState board, MatchAnimator animator, ScoreManager scoreManager,
                                 VFXManager vfxManager, AudioManager audioManager,
                                 FloatingTextManager floatingTextManager,
@@ -37,6 +40,13 @@ namespace Assets.Scripts.Game.Board
             _poolManager = poolManager;
         }
 
+        /// <summary>
+        /// Triggers the specified powerup (bomb) effect on the board.
+        /// Handles different bomb types: ColorBomb, Vertical, Horizontal, and Area.
+        /// </summary>
+        /// <param name="bomb">The bomb controller to activate.</param>
+        /// <param name="targetGem">Optional target gem for color bomb activation.</param>
+        /// <returns>Task representing the asynchronous operation.</returns>
         public async Task TriggerPowerup(BombController bomb, BoardEntity targetGem = null)
         {
             if (!GameFlow.IsGameActive || bomb == null) return;
@@ -83,6 +93,9 @@ namespace Assets.Scripts.Game.Board
             if (vfxTask != null) await vfxTask;
         }
 
+        /// <summary>
+        /// Triggers the color bomb effect, destroying all gems of a certain type.
+        /// </summary>
         private async Task TriggerColorBomb(Vector2 bombPos, BoardEntity manualTarget, Task vfxTask)
         {
             if (vfxTask != null) await vfxTask;
@@ -106,6 +119,9 @@ namespace Assets.Scripts.Game.Board
             await Task.WhenAll(tasks);
         }
 
+        /// <summary>
+        /// Clears a full line (horizontal or vertical) of gems.
+        /// </summary>
         private async Task ClearLine(Vector2 pos, bool isVertical, BombType bombType)
         {
             var tasks = new List<Task>();
@@ -120,6 +136,9 @@ namespace Assets.Scripts.Game.Board
             if (tasks.Count > 0) await Task.WhenAll(tasks);
         }
 
+        /// <summary>
+        /// Clears a 3x3 area of gems around the specified position.
+        /// </summary>
         private async Task ClearArea(Vector2 pos, BombType bombType)
         {
             var tasks = new List<Task>();
@@ -138,6 +157,10 @@ namespace Assets.Scripts.Game.Board
             if (tasks.Count > 0) await Task.WhenAll(tasks);
         }
 
+        /// <summary>
+        /// Processes a single target entity during a powerup activation.
+        /// Triggers other bombs if hit or destroys regular gems/obstacles.
+        /// </summary>
         private void ProcessTarget(BoardEntity target, BombType bombType, List<Task> tasks)
         {
             if (target == null || !target.IsDestroyable()) return;
@@ -153,6 +176,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Destroys a single gem, adds score, and plays visual effects.
+        /// </summary>
         private async Task DestroyGem(BoardEntity gem, int scoreValue, BombType? sourceType = null)
         {
             if (!GameFlow.IsGameActive || gem == null || gem.gameObject == null) return;

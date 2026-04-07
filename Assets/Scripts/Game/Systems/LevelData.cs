@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Systems
 {
+    /// <summary>
+    /// Represents the placement of an obstacle on the board.
+    /// </summary>
     [System.Serializable]
     public class ObstaclePlacement
     {
@@ -10,6 +13,9 @@ namespace Assets.Scripts.Game.Systems
         public GameObject Prefab;
     }
 
+    /// <summary>
+    /// Represents the placement of a specific gem on the board.
+    /// </summary>
     [System.Serializable]
     public class GemPlacement
     {
@@ -17,6 +23,9 @@ namespace Assets.Scripts.Game.Systems
         public GameObject Prefab;
     }
 
+    /// <summary>
+    /// ScriptableObject that stores level configuration data, including board size, targets, and initial entity placement.
+    /// </summary>
     [CreateAssetMenu(fileName = "New LevelData", menuName = "Match3/Level Data")]
     public class LevelData : ScriptableObject
     {
@@ -39,3 +48,4 @@ namespace Assets.Scripts.Game.Systems
         public List<Vector2Int> EmptyCells;
     }
 }
+ village

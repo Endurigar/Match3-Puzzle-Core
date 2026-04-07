@@ -15,12 +15,18 @@ namespace Assets.Scripts.Game.Systems
 
         private Vector3 _originalPosition;
 
+        /// <summary>
+        /// Initializes the camera reference and stores its original position.
+        /// </summary>
         private void Start()
         {
             if (_mainCamera == null) _mainCamera = Camera.main;
             _originalPosition = _mainCamera.transform.position;
         }
 
+        /// <summary>
+        /// Shakes the camera using the default settings configured in the inspector.
+        /// </summary>
         public void ShakeCamera()
         {
             _mainCamera.transform.DOKill(complete: true);
@@ -28,6 +34,11 @@ namespace Assets.Scripts.Game.Systems
             _mainCamera.transform.DOShakePosition(_shakeDuration, _shakeStrength, _vibrato, _randomness);
         }
 
+        /// <summary>
+        /// Shakes the camera with the specified duration and strength.
+        /// </summary>
+        /// <param name="duration">Duration of the shake in seconds.</param>
+        /// <param name="strength">Strength of the shake.</param>
         public void ShakeCamera(float duration, float strength)
         {
             _mainCamera.transform.DOKill(complete: true);

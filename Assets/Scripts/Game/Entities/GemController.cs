@@ -7,7 +7,11 @@ namespace Assets.Scripts.Game.Entities
     {
         [SerializeField] private GemType gemType;
 
+        /// <summary>
+        /// Gets the type of the gem.
+        /// </summary>
         public GemType GemType => gemType;
+
 
     }
 }

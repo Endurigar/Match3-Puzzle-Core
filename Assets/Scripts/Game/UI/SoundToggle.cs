@@ -5,6 +5,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.UI
 {
+    /// <summary>
+    /// UI component that handles toggling music and sound effects (SFX) on and off.
+    /// Updates its icons based on the current mute state in the AudioManager.
+    /// </summary>
     public class SoundToggle : MonoBehaviour
     {
         [Header("Music UI")]
@@ -21,6 +25,9 @@ namespace Assets.Scripts.Game.UI
 
         private AudioManager _audioManager;
 
+        /// <summary>
+        /// Injects the audio manager dependency.
+        /// </summary>
         [Inject]
         public void Construct(AudioManager audioManager)
         {
@@ -39,6 +46,9 @@ namespace Assets.Scripts.Game.UI
             if (_audioManager != null) UpdateVisuals();
         }
 
+        /// <summary>
+        /// Toggles the music mute state and updates the UI visuals.
+        /// </summary>
         private void ToggleMusic()
         {
             _audioManager.ToggleMusic();
@@ -46,6 +56,9 @@ namespace Assets.Scripts.Game.UI
             UpdateVisuals();
         }
 
+        /// <summary>
+        /// Toggles the SFX mute state and updates the UI visuals.
+        /// </summary>
         private void ToggleSFX()
         {
             _audioManager.ToggleSFX();
@@ -56,6 +69,9 @@ namespace Assets.Scripts.Game.UI
             UpdateVisuals();
         }
 
+        /// <summary>
+        /// Updates the music and SFX icons based on their current mute status.
+        /// </summary>
         private void UpdateVisuals()
         {
             if (_audioManager == null) return;
@@ -68,3 +84,4 @@ namespace Assets.Scripts.Game.UI
         }
     }
 }
+ village

@@ -5,6 +5,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.UI
 {
+    /// <summary>
+    /// Spawns level selection buttons based on a list of level data.
+    /// Handles first level unlocking and dependency injection for the buttons.
+    /// </summary>
     public class LevelButtonsSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject _levelButtonPrefab;
@@ -14,6 +18,9 @@ namespace Assets.Scripts.Game.UI
         private DiContainer _diContainer;
         private LevelProgressManager _progressManager;
 
+        /// <summary>
+        /// Injects dependencies for spawner and progress management.
+        /// </summary>
         [Inject]
         public void Construct(DiContainer diContainer, LevelProgressManager progressManager)
         {
@@ -23,7 +30,7 @@ namespace Assets.Scripts.Game.UI
 
         private void Start()
         {
-            if (_levels.Count > 0)
+            if (_levels != null && _levels.Count > 0)
             {
                 _progressManager.UnlockLevel(_levels[0].Name);
             }
@@ -31,8 +38,13 @@ namespace Assets.Scripts.Game.UI
             SpawnButtons();
         }
 
+        /// <summary>
+        /// Instantiates level button prefabs into the specified container.
+        /// </summary>
         private void SpawnButtons()
         {
+            if (_levels == null) return;
+
             foreach (var level in _levels)
             {
                 var buttonObj = _diContainer.InstantiatePrefab(_levelButtonPrefab, _container);

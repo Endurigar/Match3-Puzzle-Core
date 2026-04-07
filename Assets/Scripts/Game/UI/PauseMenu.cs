@@ -7,6 +7,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.UI
 {
+    /// <summary>
+    /// Controller for the pause menu UI.
+    /// Handles pausing the game, resuming, restarting, and returning to the main menu.
+    /// </summary>
     public class PauseMenu : BaseMenu
     {
         [Header("Buttons")]
@@ -17,6 +21,9 @@ namespace Assets.Scripts.Game.UI
 
         private GameManager _gameManager;
 
+        /// <summary>
+        /// Injects the game manager dependency.
+        /// </summary>
         [Inject]
         public void Construct(GameManager gameManager)
         {
@@ -40,23 +47,35 @@ namespace Assets.Scripts.Game.UI
             }
         }
 
+        /// <summary>
+        /// Displays the pause menu and pauses the game time.
+        /// </summary>
         private void ShowPause()
         {
             if (IsActive()) return;
             ShowMenu("PAUSED", pauseTime: true);
         }
 
+        /// <summary>
+        /// Hides the pause menu and resumes the game time.
+        /// </summary>
         private void Resume()
         {
             HideMenu(resumeTime: true);
         }
 
+        /// <summary>
+        /// Restarts the current level and resumes the game time.
+        /// </summary>
         private void Restart()
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        /// <summary>
+        /// Returns to the main menu scene and resumes the game time.
+        /// </summary>
         private void LoadMainMenu()
         {
             Time.timeScale = 1f;
@@ -64,3 +83,4 @@ namespace Assets.Scripts.Game.UI
         }
     }
 }
+ village

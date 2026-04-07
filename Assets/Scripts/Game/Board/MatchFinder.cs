@@ -9,11 +9,19 @@ namespace Assets.Scripts.Game.Board
     {
         private readonly BoardState _board;
 
+        /// <summary>
+        /// Initializes a new instance of the MatchFinder class.
+        /// </summary>
+        /// <param name="board">The board state to search matches in.</param>
         public MatchFinder(BoardState board)
         {
             _board = board;
         }
 
+        /// <summary>
+        /// Checks if there are any matches currently present on the board.
+        /// </summary>
+        /// <returns>True if at least one match exists, false otherwise.</returns>
         public bool HasAnyMatches()
         {
             for (int x = 0; x < _board.Width; x++)
@@ -26,6 +34,12 @@ namespace Assets.Scripts.Game.Board
             return false;
         }
 
+        /// <summary>
+        /// Finds all matched groups originating from the specified positions.
+        /// Supports horizontal, vertical, and cross matches.
+        /// </summary>
+        /// <param name="positions">The positions to check for matches.</param>
+        /// <returns>A list of MatchedGroup objects.</returns>
         public List<MatchedGroup> GetMatchesAt(params Vector2Int[] positions)
         {
             List<MatchedGroup> groups = new();
@@ -75,6 +89,11 @@ namespace Assets.Scripts.Game.Board
             return groups;
         }
 
+        /// <summary>
+        /// Checks if there is a match (at least 3 in a row/column) that includes the specified position.
+        /// </summary>
+        /// <param name="pos">The position to check.</param>
+        /// <returns>True if a match exists at the position.</returns>
         public bool HasMatchAt(Vector2Int pos)
         {
             var gem = _board.GetGem(pos.x, pos.y) as GemController;
@@ -87,6 +106,9 @@ namespace Assets.Scripts.Game.Board
             return h >= 3 || v >= 3;
         }
 
+        /// <summary>
+        /// Gets all gems in a full match (in two opposite directions) starting from a position.
+        /// </summary>
         private List<GemController> GetFullMatch(Vector2Int pos, Vector2Int dir1, Vector2Int dir2, GemType type)
         {
             var gem = _board.GetGem(pos.x, pos.y) as GemController;
@@ -96,6 +118,9 @@ namespace Assets.Scripts.Game.Board
                    .ToList();
         }
 
+        /// <summary>
+        /// Gets a list of consecutive gems of the same type in a specific direction.
+        /// </summary>
         private List<GemController> GetMatchLine(Vector2Int start, Vector2Int dir, GemType type)
         {
             List<GemController> matched = new();
@@ -110,6 +135,9 @@ namespace Assets.Scripts.Game.Board
             return matched;
         }
 
+        /// <summary>
+        /// Counts how many consecutive gems of the same type are in a specific direction.
+        /// </summary>
         private int CountSame(Vector2Int pos, Vector2Int dir, GemType type)
         {
             int count = 0;

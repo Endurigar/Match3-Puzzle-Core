@@ -8,6 +8,9 @@ namespace Assets.Scripts.Game.Systems
         [Inject] private ScoreManager _scoreManager;
         [Inject] private HighScoreManager _highScoreManager;
 
+        /// <summary>
+        /// Ensures the high score is saved when the application is closed.
+        /// </summary>
         private void OnApplicationQuit()
         {
             if (_highScoreManager != null && _scoreManager != null)

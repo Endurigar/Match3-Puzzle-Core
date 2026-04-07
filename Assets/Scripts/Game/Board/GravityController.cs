@@ -12,18 +12,30 @@ namespace Assets.Scripts.Game.Board
         private readonly BoardGenerator _generator;
         private bool _isActive = true;
 
+        /// <summary>
+        /// Initializes a new instance of the GravityController class.
+        /// </summary>
+        /// <param name="board">The board state.</param>
+        /// <param name="generator">The board generator for refilling.</param>
         public GravityController(BoardState board, BoardGenerator generator)
         {
             _board = board;
             _generator = generator;
         }
 
+        /// <summary>
+        /// Stops any active gravity operations and kills running tweens.
+        /// </summary>
         public void Stop()
         {
             _isActive = false;
             DOTween.KillAll();
         }
 
+        /// <summary>
+        /// Initiates the drop and refill process, moving gems down and spawning new ones if needed.
+        /// </summary>
+        /// <returns>Task representing the asynchronous operation.</returns>
         public async Task DropAndRefill()
         {
             if (!_isActive || !GameFlow.IsGameActive) return;
@@ -70,6 +82,9 @@ namespace Assets.Scripts.Game.Board
             }
         }
 
+        /// <summary>
+        /// Animates a gem moving to a target position and adds the task to the provided list.
+        /// </summary>
         private void MoveGemTo(BoardEntity gem, int x, int y, List<Task> tasks)
         {
             _board.SetGem(x, y, gem);

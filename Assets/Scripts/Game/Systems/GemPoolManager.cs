@@ -25,6 +25,9 @@ namespace Assets.Scripts.Game.Systems
             _holder = poolRoot.transform;
         }
 
+        /// <summary>
+        /// Injects dependencies and initializes color and bomb pools.
+        /// </summary>
         [Inject]
         public void Construct(GemsScriptableObject gemsData)
         {
@@ -32,6 +35,9 @@ namespace Assets.Scripts.Game.Systems
             InitializePools();
         }
 
+        /// <summary>
+        /// Initializes pools for all gem and bomb types defined in the data.
+        /// </summary>
         private void InitializePools()
         {
             if (_gemsData == null)
@@ -59,6 +65,9 @@ namespace Assets.Scripts.Game.Systems
             }
         }
 
+        /// <summary>
+        /// Creates an object pool for a specific board entity prefab.
+        /// </summary>
         private ObjectPool<T> CreatePool<T>(T prefab) where T : BoardEntity
         {
             return new ObjectPool<T>(
@@ -77,6 +86,9 @@ namespace Assets.Scripts.Game.Systems
             );
         }
 
+        /// <summary>
+        /// Retrieves a gem of the specified type from the pool.
+        /// </summary>
         public GemController GetGem(GemType type)
         {
             if (_gemPools.TryGetValue(type, out var pool))
@@ -87,6 +99,9 @@ namespace Assets.Scripts.Game.Systems
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a bomb of the specified type from the pool.
+        /// </summary>
         public BombController GetBomb(BombType type)
         {
             if (_bombPools.TryGetValue(type, out var pool))
@@ -97,6 +112,9 @@ namespace Assets.Scripts.Game.Systems
             return null;
         }
 
+        /// <summary>
+        /// Releases a board entity back to its respective pool or destroys it if no pool exists.
+        /// </summary>
         public void Release(BoardEntity entity)
         {
             if (entity == null) return;

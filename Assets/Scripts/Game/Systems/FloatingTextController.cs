@@ -14,11 +14,21 @@ namespace Assets.Scripts.Game.Systems
 
         private IObjectPool<FloatingTextController> _pool;
 
+        /// <summary>
+        /// Sets the object pool reference for this controller.
+        /// </summary>
+        /// <param name="pool">The object pool instance.</param>
         public void SetPool(IObjectPool<FloatingTextController> pool)
         {
             _pool = pool;
         }
 
+        /// <summary>
+        /// Initializes the floating text with content, position, and color, and starts the animation.
+        /// </summary>
+        /// <param name="text">The text to display.</param>
+        /// <param name="position">The starting position.</param>
+        /// <param name="color">The text color.</param>
         public void Initialize(string text, Vector3 position, Color color)
         {
             transform.position = position;
@@ -30,6 +40,9 @@ namespace Assets.Scripts.Game.Systems
             AnimateAndRelease();
         }
 
+        /// <summary>
+        /// Animates the text upwards and fades it out, then releases it back to the pool.
+        /// </summary>
         private void AnimateAndRelease()
         {
             transform.DOKill();

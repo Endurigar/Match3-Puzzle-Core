@@ -10,11 +10,21 @@ namespace Assets.Scripts.Game.Systems
         [SerializeField] private List<SFXData> _sfxList;
         [SerializeField] private List<MusicData> _musicList;
 
+        /// <summary>
+        /// Retrieves the SFXData for a specific sound effect type.
+        /// </summary>
+        /// <param name="type">The type of sound effect to find.</param>
+        /// <returns>The SFXData, or null if not found.</returns>
         public SFXData GetSFX(SFXType type)
         {
             return _sfxList?.FirstOrDefault(x => x.Type == type);
         }
 
+        /// <summary>
+        /// Retrieves the MusicData for a specific music track type.
+        /// </summary>
+        /// <param name="type">The type of music to find.</param>
+        /// <returns>The MusicData, or null if not found.</returns>
         public MusicData GetMusic(MusicType type)
         {
             return _musicList?.FirstOrDefault(x => x.Type == type);

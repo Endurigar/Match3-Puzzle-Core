@@ -8,6 +8,10 @@ using Zenject;
 
 namespace Assets.Scripts.Game.UI
 {
+    /// <summary>
+    /// Represents a level selection item in the UI.
+    /// Displays level name, unlock status, and earned stars.
+    /// </summary>
     public class LevelMenu : MonoBehaviour
     {
         [Header("UI Components")]
@@ -23,6 +27,9 @@ namespace Assets.Scripts.Game.UI
         private LevelData _levelData;
         private LevelProgressManager _progressManager;
 
+        /// <summary>
+        /// Injects the level progress manager dependency.
+        /// </summary>
         [Inject]
         public void Construct(LevelProgressManager progressManager)
         {
@@ -34,6 +41,10 @@ namespace Assets.Scripts.Game.UI
             _playButton.onClick.AddListener(OnLevelButtonClicked);
         }
 
+        /// <summary>
+        /// Configures the menu item with specific level data and updates its visuals.
+        /// </summary>
+        /// <param name="levelInfo">The data for the level this menu item represents.</param>
         public void SetLevelInfo(LevelData levelInfo)
         {
             _levelData = levelInfo;
@@ -42,6 +53,9 @@ namespace Assets.Scripts.Game.UI
             UpdateVisuals();
         }
 
+        /// <summary>
+        /// Updates the interactability, lock icon, and star display based on player progress.
+        /// </summary>
         private void UpdateVisuals()
         {
             if (_progressManager == null) return;
@@ -57,6 +71,11 @@ namespace Assets.Scripts.Game.UI
             UpdateStars(isUnlocked, stars);
         }
 
+        /// <summary>
+        /// Updates the star images to reflect the number of stars earned on this level.
+        /// </summary>
+        /// <param name="isUnlocked">Whether the level is unlocked.</param>
+        /// <param name="earnedStars">The number of stars earned (0-3).</param>
         private void UpdateStars(bool isUnlocked, int earnedStars)
         {
             if (!isUnlocked)
@@ -72,6 +91,9 @@ namespace Assets.Scripts.Game.UI
             }
         }
 
+        /// <summary>
+        /// Handles the level button click event, selects the level, and loads the game scene.
+        /// </summary>
         private void OnLevelButtonClicked()
         {
             if (LevelManager.Instance != null)
